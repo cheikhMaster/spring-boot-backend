@@ -34,6 +34,13 @@ public class  BackupService {
     @Autowired
     private ActivityLogService activityLogService;
 
+    @Autowired
+    private OracleBackupService oracleBackupService;
+
+    @Autowired
+    private SshService sshService;
+
+
     public List<BackupDTO> getAllBackups() {
         return backupRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -176,22 +183,26 @@ public class  BackupService {
         });
     }
 
+
+
     private boolean performBackup(DatabaseInstance instance, Backup backup) {
-        // Logique de sauvegarde à implémenter en fonction du type de base de données
         try {
-            // Simulation d'un processus de sauvegarde
-            // Dans une implémentation réelle, la logique dépendrait du type de base de données
-            Thread.sleep(5000); // Simule un travail de 5 secondes
+            boolean success = false;
 
-            // Définir le chemin du fichier de sauvegarde
-            String filePath = "/backups/" + instance.getName() + "_"
-                    + LocalDateTime.now().toString().replace(":", "-") + ".bak";
-            backup.setFilePath(filePath);
-            backup.setFileSize(1024L * 1024L); // Exemple: 1 MB
+            // Choix de l'implémentation en fonction du type de base de données
+            switch (instance.getType()) {
+                case ORACLE:
+                    success = oracleBackupService.performHotBackup(instance, backup);
+                    break;
+                // Autres types de bases de données...
+                default:
+                    backup.setErrorMessage("Type de base de données non supporté pour la sauvegarde");
+                    success = false;
+            }
 
-            return true;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            return success;
+        } catch (Exception e) {
+            backup.setErrorMessage("Erreur lors de la sauvegarde: " + e.getMessage());
             return false;
         }
     }
