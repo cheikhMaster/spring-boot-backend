@@ -2,12 +2,10 @@ package com.project.memoireBackend.model;
 
 import com.project.memoireBackend.dto.DatabaseMetric;
 import jakarta.persistence.*;
-import lombok.Data;
 import java.util.Set;
 
 @Entity
 @Table(name = "database_instances")
-@Data
 public class DatabaseInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +24,20 @@ public class DatabaseInstance {
     private int port;
     private String username;
     private String password; // À encoder
+
+    // Champs spécifiques à Oracle
+    private String sid;
+    private String serviceName;
+    private String tnsName;
+    private String tnsAdmin;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DatabaseStatus status;
+
+    // Déplacé avant les getters/setters pour éviter des problèmes
+    @Column(name = "is_local")
+    private boolean local; // au lieu de isLocal
 
     public Long getId() {
         return id;
@@ -83,20 +95,44 @@ public class DatabaseInstance {
         this.password = password;
     }
 
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getTnsName() {
+        return tnsName;
+    }
+
+    public void setTnsName(String tnsName) {
+        this.tnsName = tnsName;
+    }
+
+    public String getTnsAdmin() {
+        return tnsAdmin;
+    }
+
+    public void setTnsAdmin(String tnsAdmin) {
+        this.tnsAdmin = tnsAdmin;
+    }
+
     public DatabaseStatus getStatus() {
         return status;
     }
 
     public void setStatus(DatabaseStatus status) {
         this.status = status;
-    }
-
-    public boolean isLocal() {
-        return isLocal;
-    }
-
-    public void setLocal(boolean local) {
-        isLocal = local;
     }
 
     public Set<Backup> getBackups() {
@@ -115,16 +151,20 @@ public class DatabaseInstance {
         this.metrics = metrics;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DatabaseStatus status;
-
-    private boolean isLocal;
-
     @OneToMany(mappedBy = "databaseInstance", cascade = CascadeType.ALL)
     private Set<Backup> backups;
 
     @OneToMany(mappedBy = "databaseInstance", cascade = CascadeType.ALL)
     private Set<DatabaseMetric> metrics;
-}
 
+    // Getters et setters explicites pour isLocal
+    public boolean isLocal() {
+        return this.local;
+    }
+
+    public void setLocal(boolean local) {
+        this.local = local;
+    }
+
+    // Autres getters et setters...
+}

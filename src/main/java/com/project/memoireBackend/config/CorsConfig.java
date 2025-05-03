@@ -1,10 +1,6 @@
 package com.project.memoireBackend.config;
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> aa10145 (commit du 30/04 13 50)
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -13,6 +9,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
+    /*
 
     @Bean
     public CorsFilter corsFilter() {
@@ -40,4 +37,6 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+
+     */
 }

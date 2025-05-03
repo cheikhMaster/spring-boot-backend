@@ -1,18 +1,15 @@
 package com.project.memoireBackend.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.memoireBackend.model.DatabaseType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class DatabaseInstanceCreateDTO {
     @NotBlank(message = "Le nom est obligatoire")
     private String name;
@@ -26,6 +23,27 @@ public class DatabaseInstanceCreateDTO {
     @Min(value = 1, message = "Le port doit être supérieur à 0")
     @Max(value = 65535, message = "Le port doit être inférieur à 65536")
     private int port;
+
+    private String username;
+    private String password;
+
+    @JsonProperty("isLocal")
+    private boolean local;
+
+    // Champs spécifiques à Oracle
+    private String sid;
+    private String serviceName;
+    private String tnsName;
+    private String tnsAdmin;
+
+    // Getter et Setter explicites pour isLocal
+    public boolean isLocal() {
+        return local;
+    }
+
+    public void setLocal(boolean local) {
+        this.local = local;
+    }
 
     public String getName() {
         return name;
@@ -75,15 +93,36 @@ public class DatabaseInstanceCreateDTO {
         this.password = password;
     }
 
-    public boolean isLocal() {
-        return isLocal;
+    public String getSid() {
+        return sid;
     }
 
-    public void setLocal(boolean local) {
-        isLocal = local;
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 
-    private String username;
-    private String password;
-    private boolean isLocal;
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getTnsName() {
+        return tnsName;
+    }
+
+    public void setTnsName(String tnsName) {
+        this.tnsName = tnsName;
+    }
+
+    public String getTnsAdmin() {
+        return tnsAdmin;
+    }
+
+    public void setTnsAdmin(String tnsAdmin) {
+        this.tnsAdmin = tnsAdmin;
+    }
+// Autres getters et setters...
 }

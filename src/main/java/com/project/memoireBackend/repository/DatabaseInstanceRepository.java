@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface DatabaseInstanceRepository extends JpaRepository<DatabaseInstance, Long> {
-    List<DatabaseInstance> findByIsLocal(boolean isLocal);
+    List<DatabaseInstance> findByLocal(boolean isLocal);
     List<DatabaseInstance> findByStatus(DatabaseStatus status);
     List<DatabaseInstance> findByType(DatabaseType type);
     List<DatabaseInstance> findByNameContainingIgnoreCase(String name);
