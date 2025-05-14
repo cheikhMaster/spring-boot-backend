@@ -189,20 +189,37 @@ public class  BackupService {
         try {
             boolean success = false;
 
+            // Loguer le début de la tentative de sauvegarde avec plus de détails
+            System.out.println("Tentative de sauvegarde pour la base " + instance.getName()
+                    + " (ID: " + instance.getId()
+                    + ", Type: " + instance.getType()
+                    + ", SID: " + instance.getSid()
+                    + ", Local: " + instance.isLocal() + ")");
+
             // Choix de l'implémentation en fonction du type de base de données
             switch (instance.getType()) {
                 case ORACLE:
+                    System.out.println("Utilisation du service OracleBackupService");
                     success = oracleBackupService.performHotBackup(instance, backup);
                     break;
                 // Autres types de bases de données...
                 default:
-                    backup.setErrorMessage("Type de base de données non supporté pour la sauvegarde");
+                    backup.setErrorMessage("Type de base de données non supporté pour la sauvegarde: " + instance.getType());
+                    System.out.println("Type de base de données non supporté: " + instance.getType());
                     success = false;
+            }
+
+            if (!success) {
+                System.out.println("La sauvegarde a échoué. Message d'erreur: " + backup.getErrorMessage());
             }
 
             return success;
         } catch (Exception e) {
-            backup.setErrorMessage("Erreur lors de la sauvegarde: " + e.getMessage());
+            e.printStackTrace();
+            String errorMessage = "Erreur lors de la sauvegarde: " + e.getMessage() +
+                    " (Classe: " + e.getClass().getName() + ")";
+            backup.setErrorMessage(errorMessage);
+            System.out.println(errorMessage);
             return false;
         }
     }

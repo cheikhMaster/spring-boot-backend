@@ -206,9 +206,10 @@ public class DatabaseInstanceService {
         dto.setUsername(instance.getUsername());
         dto.setStatus(instance.getStatus());
 
-        System.out.println("ConvertToDTO - instance.isLocal() : " + instance.isLocal());
+        //System.out.println("ConvertToDTO - instance.isLocal() : " + instance.isLocal());
         dto.setLocal(instance.isLocal());
-        System.out.println("ConvertToDTO - dto.isLocal() : " + dto.isLocal());
+       //
+        // System.out.println("ConvertToDTO - dto.isLocal() : " + dto.isLocal());
 
         // Champs Oracle
         dto.setSid(instance.getSid());
