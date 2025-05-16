@@ -2,15 +2,11 @@ package com.project.memoireBackend.dto;
 
 import com.project.memoireBackend.model.MetricType;
 import com.project.memoireBackend.model.MetricUnit;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class MetricDTO {
     private Long id;
     private Long databaseId;

@@ -2,16 +2,10 @@ package com.project.memoireBackend.dto;
 
 import com.project.memoireBackend.model.MetricType;
 import com.project.memoireBackend.model.MetricUnit;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class MetricCreateDTO {
     @NotNull(message = "L'ID de la base de données est obligatoire")
     private Long databaseId;
